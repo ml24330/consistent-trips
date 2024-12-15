@@ -12,8 +12,8 @@
         <h1 class="mt-5">Image Viewer</h1>
         <div class="row mt-3">
             <!-- Drop down menus -->
-            <div class="col-md-2">
-                <label for="distanceThreshold">Distance Threshold</label>
+            <div class="col-md-2 d-flex flex-column">
+                <label for="distanceThreshold" class="mb-1">Distance Threshold</label>
                 <select id="distanceThreshold" class="custom-select">
                     <option value="10">10%</option>
                     <option value="20">20%</option>
@@ -22,8 +22,8 @@
                     <option value="50">50%</option>
                 </select>
             </div>
-            <div class="col-md-2">
-                <label for="startTimeThreshold">Start Time Threshold</label>
+            <div class="col-md-2 d-flex flex-column">
+                <label for="startTimeThreshold" class="mb-1">Start Time Threshold</label>
                 <select id="startTimeThreshold" class="custom-select">
                     <option value="1">1 Hour</option>
                     <option value="1.5">1.5 Hours</option>
@@ -31,15 +31,15 @@
                     <option value="2.5">2.5 Hours</option>
                 </select>
             </div>
-            <div class="col-md-2">
-                <label for="weekdayChoice">Weekday Choice</label>
+            <div class="col-md-2 d-flex flex-column">
+                <label for="weekdayChoice" class="mb-1">Weekday Choice</label>
                 <select id="weekdayChoice" class="custom-select">
                     <option value="within">Within Weekdays</option>
                     <option value="across">Across Weekdays</option>
                 </select>
             </div>
-            <div class="col-md-2">
-                <label for="rollingWindowLength">Rolling Window Length</label>
+            <div class="col-md-2 d-flex flex-column">
+                <label for="rollingWindowLength" class="mb-1">Rolling Window Length</label>
                 <select id="rollingWindowLength" class="custom-select">
                     <option value="6">6 Weeks</option>
                     <option value="8">8 Weeks</option>
@@ -47,16 +47,16 @@
                     <option value="12">12 Weeks</option>
                 </select>
             </div>
-            <div class="col-md-2">
-                <label for="proportionRequirement">Proportion Requirement</label>
+            <div class="col-md-2 d-flex flex-column">
+                <label for="proportionRequirement" class="mb-1">Proportion Requirement</label>
                 <select id="proportionRequirement" class="custom-select">
                     <option value="2/8">2/8</option>
                     <option value="3/8">3/8</option>
                     <option value="4/8">4/8</option>
                 </select>
             </div>
-            <div class="col-md-2">
-                <label for="timeOfDay">Time of Day</label>
+            <div class="col-md-2 d-flex flex-column">
+                <label for="timeOfDay" class="mb-1">Time of Day</label>
                 <select id="timeOfDay" class="custom-select">
                     <option value="am">AM</option>
                     <option value="pm">PM</option>
@@ -106,7 +106,7 @@
 
             // Use a placeholder image URL for demonstration
             const placeholderImage = 'https://via.placeholder.com/150';
-            const imageList = [placeholderImage, placeholderImage, placeholderImage];  // Replace with actual logic of fetching images
+            const imageList = [placeholderImage, placeholderImage, placeholderImage]; // Replace with actual logic of fetching images
             imageList.forEach(function(image) {
                 const imgElement = document.createElement('img');
                 imgElement.src = image;
