@@ -1,41 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Bootstrap Site</title>
-  <!-- Bootstrap CSS -->
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Viewer</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Navbar</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
-        <li class="nav-item active">
-          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Features</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Pricing</a>
-        </li>
-      </ul>
+    <div class="container">
+        <h1 class="mt-5">Image Viewer</h1>
+        <div class="row mt-3">
+            <!-- Drop down menus -->
+            <div class="col-md-2">
+                <label for="distanceThreshold">Distance Threshold</label>
+                <select id="distanceThreshold" class="custom-select">
+                    <option value="10">10%</option>
+                    <option value="20">20%</option>
+                    <option value="30">30%</option>
+                    <option value="40">40%</option>
+                    <option value="50">50%</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label for="startTimeThreshold">Start Time Threshold</label>
+                <select id="startTimeThreshold" class="custom-select">
+                    <option value="1">1 Hour</option>
+                    <option value="1.5">1.5 Hours</option>
+                    <option value="2">2 Hours</option>
+                    <option value="2.5">2.5 Hours</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label for="weekdayChoice">Weekday Choice</label>
+                <select id="weekdayChoice" class="custom-select">
+                    <option value="within">Within Weekdays</option>
+                    <option value="across">Across Weekdays</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label for="rollingWindowLength">Rolling Window Length</label>
+                <select id="rollingWindowLength" class="custom-select">
+                    <option value="6">6 Weeks</option>
+                    <option value="8">8 Weeks</option>
+                    <option value="10">10 Weeks</option>
+                    <option value="12">12 Weeks</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label for="proportionRequirement">Proportion Requirement</label>
+                <select id="proportionRequirement" class="custom-select">
+                    <option value="2/8">2/8</option>
+                    <option value="3/8">3/8</option>
+                    <option value="4/8">4/8</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label for="timeOfDay">Time of Day</label>
+                <select id="timeOfDay" class="custom-select">
+                    <option value="am">AM</option>
+                    <option value="pm">PM</option>
+                    <option value="both">Both</option>
+                </select>
+            </div>
+        </div>
+        <!-- Button to load images -->
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <button id="loadImages" class="btn btn-primary">Load Images</button>
+            </div>
+        </div>
+        <!-- Images display section -->
+        <div class="row mt-3" id="imagesContainer">
+        </div>
     </div>
-  </nav>
 
-  <div class="container">
-    <h1 class="mt-5">Hello, world!</h1>
-    <p>This is a simple website using HTML and Bootstrap hosted on GitHub Pages.</p>
-  </div>
+    <script>
+        // Function to map the values from dropdowns to a number between 1 and 360
+        function mapToValue() {
+            // Placeholder function, you need to implement the mapping logic
+            const distanceThreshold = parseInt(document.getElementById('distanceThreshold').value);
+            const startTimeThreshold = parseFloat(document.getElementById('startTimeThreshold').value);
+            const weekdayChoice = document.getElementById('weekdayChoice').value;
+            const rollingWindowLength = parseInt(document.getElementById('rollingWindowLength').value);
+            const proportionRequirement = document.getElementById('proportionRequirement').value;
 
-  <!-- Bootstrap JS and dependencies -->
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+            // Perform the mapping here and return the result (this is just a placeholder example)
+            // This function should be customized to use your mapping logic
+            return Math.floor((distanceThreshold + startTimeThreshold + rollingWindowLength) % 360) + 1;
+        }
+
+        // Event listener for the loadImages button
+        document.getElementById('loadImages').addEventListener('click', function() {
+            const mappedValue = mapToValue();
+            const timeOfDay = document.getElementById('timeOfDay').value;
+            const imageDirectory = `/figures/${mappedValue}/${timeOfDay}/`;
+            loadImagesFromDirectory(imageDirectory);
+        });
+
+        // Function to load images from the directory and display them
+        function loadImagesFromDirectory(directory) {
+            // Clear the existing images
+            const container = document.getElementById('imagesContainer');
+            container.innerHTML = '';
+
+            // Use a placeholder image URL for demonstration
+            const placeholderImage = 'https://via.placeholder.com/150';
+            const imageList = [placeholderImage, placeholderImage, placeholderImage];  // Replace with actual logic of fetching images
+            imageList.forEach(function(image) {
+                const imgElement = document.createElement('img');
+                imgElement.src = image;
+                imgElement.className = 'img-thumbnail m-2';
+                container.appendChild(imgElement);
+            });
+        }
+
+    </script>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
