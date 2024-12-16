@@ -220,7 +220,7 @@
                 return;
             }
 
-            const timeOfDay = document.getElementById('timeOfDay').value;
+            const timeOfDay = document.getElementById('timeOfDay').value.toUpperCase();
             const imageDirectory = `assets/${mappedValue}/${timeOfDay}/`;
             loadImagesFromDirectory(imageDirectory);
         });
