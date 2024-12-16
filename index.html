@@ -18,6 +18,9 @@
             max-width: 100%;
             height: 300px; /* Keeping iframe height constant */
         }
+        .table-responsive {
+            overflow-x: auto;
+        }
     </style>
 </head>
 <body>
@@ -48,13 +51,15 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <table id="amTable" class="display" style="width:100%">
-                        <thead>
-                            <tr id="amTableHead"></tr>
-                        </thead>
-                        <tbody id="amTableBody">
-                        </tbody>
-                    </table>
+                    <div class="table-responsive">
+                        <table id="amTable" class="display" style="width:100%">
+                            <thead>
+                                <tr id="amTableHead"></tr>
+                            </thead>
+                            <tbody id="amTableBody">
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -71,13 +76,15 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <table id="pmTable" class="display" style="width:100%">
-                        <thead>
-                            <tr id="pmTableHead"></tr>
-                        </thead>
-                        <tbody id="pmTableBody">
-                        </tbody>
-                    </table>
+                    <div class="table-responsive">
+                        <table id="pmTable" class="display" style="width:100%">
+                            <thead>
+                                <tr id="pmTableHead"></tr>
+                            </thead>
+                            <tbody id="pmTableBody">
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -214,7 +221,7 @@
             }
 
             const timeOfDay = document.getElementById('timeOfDay').value;
-            const imageDirectory = `assets/${mappedValue}/${timeOfDay}/`;
+            const imageDirectory = `https://ml24330.github.io/consistent-trips/assets/${mappedValue}/${timeOfDay}/`;
             loadImagesFromDirectory(imageDirectory);
         });
 
