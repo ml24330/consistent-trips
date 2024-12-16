@@ -1,0 +1,2 @@
+"start_time_std","end_time_std","duration_std","time_in_peak_std","price_std","distance_std","num_seg_std","mode_route_perc","trip_count_perc","distance_threshold","start_time_threshold","within_across_weekdays","length_of_rolling_window","freq_threshold"
+0.375656887196545,0.401412377091052,0.0925639863714187,0.0820946812591797,1.15579507085094,0.670462384790458,0.59028569167241,0.711275872389864,0.372085798260995,0.1,1,0,10,0.25
