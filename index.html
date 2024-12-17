@@ -505,9 +505,19 @@
                         // Apply the search for each table header input located in the second tr of the thead.
                         api.columns().eq(0).each(function(colIdx) {
                             $(api.table().header()).find('tr:eq(1) th').eq(colIdx).find('input').on('keyup change clear', function() {
+                                // Escape any special characters in the search value
+                                var searchValue = this.value;
+
+                                // Create a new regex pattern for matching consecutive substrings
+                                var regexPattern = '(' + searchValue.split(' ').map(function(term) {
+                                    return term.split('').map(function(char) {
+                                        return $.fn.dataTable.util.escapeRegex(char);
+                                    }).join('\\s*');
+                                }).join('\\s*') + ')';
+
                                 api
                                     .column(colIdx)
-                                    .search(this.value)
+                                    .search(regexPattern, true, false) // Use regex with the custom pattern
                                     .draw();
                             });
                         });
