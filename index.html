@@ -21,20 +21,23 @@
         .table-responsive {
             overflow-x: auto;
         }
+        .nowrap-label {
+            white-space: nowrap;
+        }
     </style>
 </head>
 <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Navbar</a>
+        <!-- <a class="navbar-brand" href="#">Navbar</a> -->
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <!-- Nav items for the table pop-ups -->
                 <li class="nav-item">
-                    <a class="nav-link" href="#" data-toggle="modal" data-target="#amTableModal">AM Table</a>
+                    <a class="navbar-brand" href="#" data-toggle="modal" data-target="#amTableModal">AM Table</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#" data-toggle="modal" data-target="#pmTableModal">PM Table</a>
+                    <a class="navbar-brand" href="#" data-toggle="modal" data-target="#pmTableModal">PM Table</a>
                 </li>
             </ul>
         </div>
@@ -92,11 +95,19 @@
 
     <div class="container">
         <h1 class="mt-5">Compare Consistent Trip Definitions</h1>
-        <div class="row 
+        <div class="row mt-3">
+            <div class="col-md-2 d-flex flex-column">
+                <label for="timeOfDay" class="mb-1 nowrap-label">Time of Day</label>
+                <select id="timeOfDay" class="custom-select">
+                    <option value="am">AM</option>
+                    <option value="pm">PM</option>
+                </select>
+            </div>
+        </div>
         <div class="row mt-3">
             <!-- Drop down menus -->
             <div class="col-md-2 d-flex flex-column">
-                <label for="distanceThreshold" class="mb-1">Distance Threshold</label>
+                <label for="distanceThreshold" class="mb-1 nowrap-label">Distance Threshold</label>
                 <select id="distanceThreshold" class="custom-select">
                     <option value="0">10%</option>
                     <option value="1">20%</option>
@@ -106,7 +117,7 @@
                 </select>
             </div>
             <div class="col-md-2 d-flex flex-column">
-                <label for="startTimeThreshold" class="mb-1">Start Time Threshold</label>
+                <label for="startTimeThreshold" class="mb-1 nowrap-label">Start Time Threshold</label>
                 <select id="startTimeThreshold" class="custom-select">
                     <option value="0">1 Hour</option>
                     <option value="1">1.5 Hours</option>
@@ -115,14 +126,14 @@
                 </select>
             </div>
             <div class="col-md-2 d-flex flex-column">
-                <label for="weekdayChoice" class="mb-1">Weekday Choice</label>
+                <label for="weekdayChoice" class="mb-1 nowrap-label">Weekday Choice</label>
                 <select id="weekdayChoice" class="custom-select">
                     <option value="0">Within Weekdays</option>
                     <option value="1">Across Weekdays</option>
                 </select>
             </div>
             <div class="col-md-2 d-flex flex-column">
-                <label for="rollingWindowLength" class="mb-1">Rolling Window Length</label>
+                <label for="rollingWindowLength" class="mb-1 nowrap-label">Rolling Window Length</label>
                 <select id="rollingWindowLength" class="custom-select">
                     <option value="0">6 Weeks</option>
                     <option value="1">8 Weeks</option>
@@ -131,18 +142,11 @@
                 </select>
             </div>
             <div class="col-md-2 d-flex flex-column">
-                <label for="proportionRequirement" class="mb-1">Proportion Requirement</label>
+                <label for="proportionRequirement" class="mb-1 nowrap-label">Proportion Requirement</label>
                 <select id="proportionRequirement" class="custom-select">
                     <option value="0">2/8</option>
                     <option value="1">3/8</option>
                     <option value="2">4/8</option>
-                </select>
-            </div>
-            <div class="col-md-2 d-flex flex-column">
-                <label for="timeOfDay" class="mb-1">Time of Day</label>
-                <select id="timeOfDay" class="custom-select">
-                    <option value="am">AM</option>
-                    <option value="pm">PM</option>
                 </select>
             </div>
         </div>
@@ -231,22 +235,86 @@
             container.innerHTML = '';
 
             const files = [
-                'summary_stats_table.html',
-                'start_time_std_histogram.svg',
-                'end_time_std_histogram.svg',
-                'duration_std_histogram.svg',
-                'time_in_peak_std_histogram.svg',
-                'distance_std_histogram.svg',
-                'price_std_histogram.svg',
-                'mode_route_perc_histogram.svg',
-                'num_seg_std_histogram.svg',
-                'trip_count_perc_histogram.svg',
-                'table_consistent_percentages_.html',
-                'table_bounds_percentages_.html',
-                'histogram_prices.svg',
-                'histogram_trips.svg',
-                'trips_per_week.svg',
-                'trips_per_distance.svg'
+                {
+                    path: 'summary_stats_table.html',
+                    title: '',
+                    desc: ''
+                },
+                {
+                    path: 'start_time_std_histogram.svg',
+                    title: '',
+                    desc: ''
+                },
+                {
+                    path: 'end_time_std_histogram.svg',
+                    title: '',
+                    desc: ''
+                },
+                {
+                    path: 'duration_std_histogram.svg',
+                    title: '',
+                    desc: ''
+                },
+                {
+                    path: 'time_in_peak_std_histogram.svg',
+                    title: '',
+                    desc: ''
+                },
+                {
+                    path:  'distance_std_histogram.svg',
+                    title: '',
+                    desc: ''
+                },
+                {
+                    path: 'price_std_histogram.svg',
+                    title: '',
+                    desc: ''
+                },
+                {
+                    path: 'mode_route_perc_histogram.svg',
+                    title: '',
+                    desc: ''
+                },
+                {
+                    path: 'num_seg_std_histogram.svg',
+                    title: '',
+                    desc: ''
+                },
+                {
+                    path: 'trip_count_perc_histogram.svg',
+                    title: '',
+                    desc: ''
+                },
+                {
+                    path: 'table_consistent_percentages_.html',
+                    title: 'Consistent Trip Percentages',
+                    desc: 'This table displays the prominence of different variables constructed from all trips in the consistent trips.'
+                },
+                {
+                    path: 'table_bounds_percentages_.html',
+                    title: 'Trip Price Percentages',
+                    desc: 'This table displays share of trips costing exactly the extreme amounts. Percentages are split by trip type. I include this table because the histogram below shows the percentages by bins of size five.'
+                },
+                {
+                    path: 'histogram_trips.svg',
+                    title: 'Distribution Number of Trips per Rider',
+                    desc: 'This figure displays the density of the total number of trips per rider, split by trip type. I scale the densities to integrate to 1 for both trip types.'
+                },
+                {
+                    path: 'histogram_prices.svg',
+                    title: 'Distribution Trip Price',
+                    desc: 'This figure displays the density of the total number of trips per rider, split by trip type. I scale the densities to integrate to 1 for both trip types.'
+                },
+                {
+                    path: 'trips_per_week.svg',
+                    title: 'Percentage of Consistent Trips over Time',
+                    desc: 'This figure shows the weekly percentage of trips being consistent trips and the weekly number of total trips.'
+                },
+                {
+                    path: 'trips_per_distance.svg',
+                    title: 'Percentage of Consistent Trips per Distance Bin',
+                    desc: 'This figure shows the percentage of consistent trips and total number of trips per distance bin. I do not display trips longer than 60km because of the small percentage they represent of all trips (as evident from the figure).'
+                }
             ];
 
             files.forEach(function(file) {
@@ -257,19 +325,32 @@
                 card.className = 'card';
 
                 let element;
-                if (file.endsWith('.html')) {
+                if (file.path.endsWith('.html')) {
                     element = document.createElement('iframe');
                     element.className = 'card-img-top border-0';
-                    element.src = `${directory}${file}`;
+                    element.src = `${directory}${file.path}`;
                     element.style.width = '100%';
-                    element.style.height = '300px';
+
+                    if (file.path == 'summary_stats_table.html') {
+                        element.style.height = '500px';
+                    } else {
+                        element.style.height = '180px';
+                    }
+                    
+                    // Adjust the height dynamically
+                    element.onload = function() {
+                        // Wait for the content to load before accessing document body
+                        const body = element.contentWindow.document.body;
+                        // Resize the iframe to fit its content
+                        element.style.height = body.scrollHeight + 'px';
+                    };
                 } else {
                     element = document.createElement('img');
                     element.className = 'card-img-top p-3';
-                    element.src = `${directory}${file}`;
+                    element.src = `${directory}${file.path}`;
                     element.alt = file;
                     element.onerror = function () {
-                        element.alt = `File not found: ${file}`;
+                        element.alt = `File not found: ${file.path}`;
                         element.src = '';      // Clear the src to avoid broken image display
                     };
                 }
@@ -279,11 +360,11 @@
 
                 const cardTitle = document.createElement('h5');
                 cardTitle.className = 'card-title';
-                cardTitle.innerText = 'Card title';
+                cardTitle.innerText = file.title;
 
                 const cardText = document.createElement('p');
                 cardText.className = 'card-text';
-                cardText.innerText = 'This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.';
+                cardText.innerText = file.desc;
 
                 cardBody.appendChild(cardTitle);
                 cardBody.appendChild(cardText);
