@@ -24,20 +24,32 @@
         .nowrap-label {
             white-space: nowrap;
         }
+        .custom-min-width {
+            min-width: 180px; 
+        }
+        .table-responsive th, 
+        .table-responsive td,
+        .table-responsive input {
+            max-width: 150px; /* Set your desired maximum width here */
+            word-wrap: break-word;
+            white-space: normal;
+        }
     </style>
 </head>
 <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <!-- <a class="navbar-brand" href="#">Navbar</a> -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <!-- Nav items for the table pop-ups -->
                 <li class="nav-item">
-                    <a class="navbar-brand" href="#" data-toggle="modal" data-target="#amTableModal">AM Table</a>
+                    <a class="nav-link" href="#" data-toggle="modal" data-target="#amTableModal">AM Summary</a>
                 </li>
                 <li class="nav-item">
-                    <a class="navbar-brand" href="#" data-toggle="modal" data-target="#pmTableModal">PM Table</a>
+                    <a class="nav-link" href="#" data-toggle="modal" data-target="#pmTableModal">PM Summary</a>
                 </li>
             </ul>
         </div>
@@ -48,7 +60,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="amTableModalLabel">AM Table</h5>
+                    <h5 class="modal-title" id="amTableModalLabel">AM Summary</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -73,7 +85,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="pmTableModalLabel">PM Table</h5>
+                    <h5 class="modal-title" id="pmTableModalLabel">PM Summary</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -90,10 +102,42 @@
         </div>
     </div>
 
-    <div class="container">
-        <h1 class="mt-5">Compare Consistent Trip Definitions</h1>
+    <div class="container mb-1">
+        <h2 class="mt-5">Compare Consistent Trip Definitions</h2>
+        <div class="row mt-3 small">
+            <div class="col-12">
+                <p>This dashboard displays facts of consistent trip bins defined according to various parameter choices, including:
+                </p>
+            </div>
+            <div class="col-12">
+                <ul>
+                    <li>Distance thresholds of 10%, 20%, 30%, 40%, 50%</li>
+                    <li>Start time thresholds of 1 hour, 1.5 hours, 2 hours, 2.5 hours</li>
+                    <li>Within weekdays or across weekdays</li>
+                    <li>Rolling window lengths of 6 weeks, 8 weeks, 10 weeks, 12 weeks</li>
+                    <li>Frequency requirement of 2/8, 3/8, 4/8</li>
+                </ul>
+            </div>
+            <div class="col-12">
+                <p>I briefly describe below the current procedure of classifying consistent trips and the relevance of each of the parameters.</p>
+            </div>
+            <div class="col-12">
+                <ol>
+                    <li>Trips are sorted to their corresponding trip bins. This refers to tuples of rider-origin-destination under the across weekdays framework and rider-origin-destination-weekday under the within weekdays framework.</li>
+                    <li>For each bin, rolling windows of fixed lengths are created and the median start time and distance are calculated. Any trip falling within both the distance and start time thresholds of the median are flagged.</li>
+                    <li>For each bin, if the proportion of weeks that contain flagged trips compared to the length of the rolling window is equal to or exceeds the frequency requirement, a consistent trip bin is created containing these trips.</li>
+                    <li>For each consistent trip bin, the rolling window is rolled forward one week at a time and step 3 is repeated using the same medians as the first rolling window. This stops when the proportion of weeks that contain flagged trips falls below the frequency requirement for a rolling window.</li>
+                </ol>
+            </div>
+            <div class="col-12">
+                <p>Consistent trips are classified separately for trips starting during AM (between 4:00-11:00) and trips starting during PM (between 14:30-23:00). All recorded trips in 2020 and 2021 are used and linking was done so that trips taken by the same rider less than 20 minutes apart are combined as a singular trip.</p>
+            </div>
+            <div class="col-12">
+                <p>Selecting AM/PM trips and combinations of parameters below generates tables and figures that describe consistent trip bins resulting from specified choices. Additionally, the navigation bar above contains summary tables of dispersion metrics at the consistent trip level.</p> 
+            </div>
+        </div>
         <div class="row mt-3">
-            <div class="col-md-2 d-flex flex-column">
+            <div class="col-md-2 d-flex flex-column custom-min-width">
                 <label for="timeOfDay" class="mb-1 nowrap-label">Time of Day</label>
                 <select id="timeOfDay" class="custom-select">
                     <option value="am">AM</option>
@@ -103,7 +147,7 @@
         </div>
         <div class="row mt-3">
             <!-- Drop down menus -->
-            <div class="col-md-2 d-flex flex-column">
+            <div class="col-md-2 d-flex flex-column custom-min-width">
                 <label for="distanceThreshold" class="mb-1 nowrap-label">Distance Threshold</label>
                 <select id="distanceThreshold" class="custom-select">
                     <option value="0">10%</option>
@@ -113,7 +157,7 @@
                     <option value="4">50%</option>
                 </select>
             </div>
-            <div class="col-md-2 d-flex flex-column">
+            <div class="col-md-2 d-flex flex-column custom-min-width">
                 <label for="startTimeThreshold" class="mb-1 nowrap-label">Start Time Threshold</label>
                 <select id="startTimeThreshold" class="custom-select">
                     <option value="0">1 Hour</option>
@@ -122,14 +166,14 @@
                     <option value="3">2.5 Hours</option>
                 </select>
             </div>
-            <div class="col-md-2 d-flex flex-column">
+            <div class="col-md-2 d-flex flex-column custom-min-width">
                 <label for="weekdayChoice" class="mb-1 nowrap-label">Weekday Choice</label>
                 <select id="weekdayChoice" class="custom-select">
                     <option value="0">Within Weekdays</option>
                     <option value="1">Across Weekdays</option>
                 </select>
             </div>
-            <div class="col-md-2 d-flex flex-column">
+            <div class="col-md-2 d-flex flex-column custom-min-width">
                 <label for="rollingWindowLength" class="mb-1 nowrap-label">Rolling Window Length</label>
                 <select id="rollingWindowLength" class="custom-select">
                     <option value="0">6 Weeks</option>
@@ -138,7 +182,7 @@
                     <option value="3">12 Weeks</option>
                 </select>
             </div>
-            <div class="col-md-2 d-flex flex-column">
+            <div class="col-md-2 d-flex flex-column custom-min-width">
                 <label for="frequencyRequirement" class="mb-1 nowrap-label">Frequency Requirement</label>
                 <select id="frequencyRequirement" class="custom-select">
                     <option value="0">2/8</option>
@@ -156,6 +200,7 @@
         <!-- Images display section -->
         <div id="imagesContainer" class="row row-cols-1 row-cols-md-2 g-4">
         </div>
+        <br/>
     </div>
 
     <script>
@@ -412,7 +457,7 @@
                     const filterTh = document.createElement('th');
                     const input = document.createElement('input');
                     input.type = 'text';
-                    input.placeholder = `Filter ${header}`;
+                    input.placeholder = `Filter`;
                     filterTh.appendChild(input);
                     filterRow.appendChild(filterTh);
                 });
