@@ -81,11 +81,8 @@
                 <div class="modal-body">
                     <div class="table-responsive">
                         <table id="pmTable" class="display" style="width:100%">
-                            <thead>
-                                <tr id="pmTableHead"></tr>
-                            </thead>
-                            <tbody id="pmTableBody">
-                            </tbody>
+                            <thead></thead>
+                            <tbody id="pmTableBody"></tbody>
                         </table>
                     </div>
                 </div>
@@ -142,8 +139,8 @@
                 </select>
             </div>
             <div class="col-md-2 d-flex flex-column">
-                <label for="proportionRequirement" class="mb-1 nowrap-label">Proportion Requirement</label>
-                <select id="proportionRequirement" class="custom-select">
+                <label for="frequencyRequirement" class="mb-1 nowrap-label">Frequency Requirement</label>
+                <select id="frequencyRequirement" class="custom-select">
                     <option value="0">2/8</option>
                     <option value="1">3/8</option>
                     <option value="2">4/8</option>
@@ -195,9 +192,9 @@
             const startTimeThreshold = document.getElementById('startTimeThreshold').selectedIndex;
             const weekdayChoice = document.getElementById('weekdayChoice').selectedIndex;
             const rollingWindowLength = document.getElementById('rollingWindowLength').selectedIndex;
-            const proportionRequirement = document.getElementById('proportionRequirement').selectedIndex;
+            const frequencyRequirement = document.getElementById('frequencyRequirement').selectedIndex;
 
-            return { distanceThreshold, startTimeThreshold, weekdayChoice, rollingWindowLength, proportionRequirement };
+            return { distanceThreshold, startTimeThreshold, weekdayChoice, rollingWindowLength, frequencyRequirement };
         }
 
         // Function to map the selected indices to a row index in the parameter grid
@@ -208,7 +205,7 @@
                     row.startTimeThreshold === startTimeThresholds[indices.startTimeThreshold] &&
                     row.withinAcrossWeekdays === withinAcrossWeekdays[indices.weekdayChoice] &&
                     row.rollingWindowLength === rollingWindowLengths[indices.rollingWindowLength] &&
-                    row.freqThreshold === freqThresholds[indices.proportionRequirement]) {
+                    row.freqThreshold === freqThresholds[indices.frequencyRequirement]) {
                     return i + 1;  // Assuming i (1-based index)
                 }
             }
@@ -235,56 +232,6 @@
             container.innerHTML = '';
 
             const files = [
-                {
-                    path: 'summary_stats_table.html',
-                    title: '',
-                    desc: ''
-                },
-                {
-                    path: 'start_time_std_histogram.svg',
-                    title: '',
-                    desc: ''
-                },
-                {
-                    path: 'end_time_std_histogram.svg',
-                    title: '',
-                    desc: ''
-                },
-                {
-                    path: 'duration_std_histogram.svg',
-                    title: '',
-                    desc: ''
-                },
-                {
-                    path: 'time_in_peak_std_histogram.svg',
-                    title: '',
-                    desc: ''
-                },
-                {
-                    path:  'distance_std_histogram.svg',
-                    title: '',
-                    desc: ''
-                },
-                {
-                    path: 'price_std_histogram.svg',
-                    title: '',
-                    desc: ''
-                },
-                {
-                    path: 'mode_route_perc_histogram.svg',
-                    title: '',
-                    desc: ''
-                },
-                {
-                    path: 'num_seg_std_histogram.svg',
-                    title: '',
-                    desc: ''
-                },
-                {
-                    path: 'trip_count_perc_histogram.svg',
-                    title: '',
-                    desc: ''
-                },
                 {
                     path: 'table_consistent_percentages_.html',
                     title: 'Consistent Trip Percentages',
@@ -314,6 +261,56 @@
                     path: 'trips_per_distance.svg',
                     title: 'Percentage of Consistent Trips per Distance Bin',
                     desc: 'This figure shows the percentage of consistent trips and total number of trips per distance bin. I do not display trips longer than 60km because of the small percentage they represent of all trips (as evident from the figure).'
+                },
+                {
+                    path: 'summary_stats_table.html',
+                    title: 'Variation Within Consistent Trips',
+                    desc: 'This table shows various measures of variation among trips belonging to the same consistent trip bin. The full distribution of each of these metrics are shown in the figures below.'
+                },
+                {
+                    path: 'start_time_std_histogram.svg',
+                    title: 'Variation Within Consistent Trips: Start Time',
+                    desc: 'This figures shows the distribution of standard deviations of trip start times within each consistent trip bin. There is no truncation on the right tail.'
+                },
+                {
+                    path: 'end_time_std_histogram.svg',
+                    title: 'Variation Within Consistent Trips: End Time',
+                    desc: 'This figure shows the distribution of standard deviations of trip end times within each consistent trip bin. Any standard deviation greater than 2 is truncated and recorded as 2.'
+                },
+                {
+                    path: 'duration_std_histogram.svg',
+                    title: 'Variation Within Consistent Trips: Duration',
+                    desc: 'This figure shows the distribution of standard deviation of trip durations within each consistent trip bin.'
+                },
+                {
+                    path: 'time_in_peak_std_histogram.svg',
+                    title: 'Variation Within Consistent Trips: Peak Hour Times',
+                    desc: 'This figure shows the distribution of the standard deviation of time spent inside peak hours (6:45-9:30, 15:30-18:30) within each consistent trip bin. This is a rough measure and does not take into account whether the car is inside a charged zone.'
+                },
+                {
+                    path:  'distance_std_histogram.svg',
+                    title: 'Variation Within Consistent Trips: Distance',
+                    desc: 'This figure shows the distribution of the standard deivation of trip distances within each consistent trip bin. Any standard deviation greater than 2 is truncated and recorded as 4.'
+                },
+                {
+                    path: 'price_std_histogram.svg',
+                    title: 'Variation Within Consistent Trips: Price',
+                    desc: 'This figure shows the distribution of the standard deviation of trip prices within each consistent trip bin. Any standard deviation greater than 5 is truncated and recorded as 5. Any significant truncation is likely caused by long distance consistent trips being sometimes not charged and sometimes charged (resulting in a price of 25).'
+                },
+                {
+                    path: 'mode_route_perc_histogram.svg',
+                    title: 'Variation Within Consistent Trips: Modal Route',
+                    desc: 'This figure shows the distribution of the frequency of trips taking the modal route within each consistent trip bin, according to segment-level data.'
+                },
+                {
+                    path: 'num_seg_std_histogram.svg',
+                    title: 'Variation Within Consistent Trips: Number of Segments',
+                    desc: 'This figure shows the distribution of the standard deviation of the number of segments for trips within each consistent trip bin. Any standard deviation greater than 3 is truncated and recorded as 3.'
+                },
+                {
+                    path: 'trip_count_perc_histogram.svg',
+                    title: 'Variation Within Consistent Trips: Trip Count',
+                    desc: 'This figure shows the distribution of the ratio between number of trips in each consistent trip bin, and the number of trips in the rider-origin-destination(-weekday) bin for which the consistent trip bin belongs to.'
                 }
             ];
 
@@ -334,7 +331,7 @@
                     if (file.path == 'summary_stats_table.html') {
                         element.style.height = '500px';
                     } else {
-                        element.style.height = '180px';
+                        element.style.height = '170px';
                     }
                     
                     // Adjust the height dynamically
@@ -346,7 +343,7 @@
                     };
                 } else {
                     element = document.createElement('img');
-                    element.className = 'card-img-top p-3';
+                    element.className = 'card-img-top p-4';
                     element.src = `${directory}${file.path}`;
                     element.alt = file;
                     element.onerror = function () {
@@ -376,37 +373,54 @@
                 container.appendChild(col);
             });
         }
-
-        // Function to fetch and parse CSV, then populate the table
-        function loadCSVIntoTable(url, tableHeadId, tableBodyId) {
+        
+        // Function to fetch and parse CSV, then populate the table.
+        function loadCSVIntoTable(url, tableId) {
             Papa.parse(url, {
                 download: true,
                 header: true,
                 complete: function(results) {
-                    populateTable(results.data, tableHeadId, tableBodyId);
+                    populateTable(results.data, tableId);
                 }
             });
         }
 
-        // Function to populate table head and body
-        function populateTable(data, tableHeadId, tableBodyId) {
-            const tableHead = document.getElementById(tableHeadId);
-            const tableBody = document.getElementById(tableBodyId);
+        // Function to populate table head and body.
+        function populateTable(data, tableId) {
+            const table = document.getElementById(tableId);
+            const thead = table.querySelector('thead');
+            const tbody = table.querySelector('tbody');
 
-            // Clear any existing rows
-            tableHead.innerHTML = '';
-            tableBody.innerHTML = '';
+            // Clear any existing rows.
+            thead.innerHTML = '';
+            tbody.innerHTML = '';
 
             if (data.length > 0) {
-                // Generate table headers
                 const headers = Object.keys(data[0]);
+                
+                // Create filter row.
+                const filterRow = document.createElement('tr');
+                
+                // Create and append header row.
+                const headerRow = document.createElement('tr');
                 headers.forEach(header => {
                     const th = document.createElement('th');
                     th.textContent = header;
-                    tableHead.appendChild(th);
+                    headerRow.appendChild(th);
+
+                    // Create and append filter input cell.
+                    const filterTh = document.createElement('th');
+                    const input = document.createElement('input');
+                    input.type = 'text';
+                    input.placeholder = `Filter ${header}`;
+                    filterTh.appendChild(input);
+                    filterRow.appendChild(filterTh);
                 });
 
-                // Generate table rows
+                thead.appendChild(headerRow);
+                thead.appendChild(filterRow);
+
+                // Generate table rows.
                 data.forEach(row => {
                     const tr = document.createElement('tr');
                     headers.forEach(header => {
@@ -414,23 +428,57 @@
                         td.textContent = row[header];
                         tr.appendChild(td);
                     });
-                    tableBody.appendChild(tr);
+                    tbody.appendChild(tr);
                 });
 
-                // Re-initialize DataTable
-                $(`#${tableHeadId}`).closest('table').DataTable();
+                // // Initialize DataTable with column filtering.
+                // const dataTable = $(`#${tableId}`).DataTable({
+                //     orderCellsTop: true,
+                //     fixedHeader: true,
+                //     initComplete: function() {
+                //         const api = this.api();
+
+                //         // Apply the search for each table header input.
+                //         api.columns().eq(0).each(function(colIdx) {
+                //             $('input', api.column(colIdx).header()).on('keyup change clear', function() {
+                //                 api
+                //                     .column(colIdx)
+                //                     .search(this.value)
+                //                     .draw();
+                //             });
+                //         });
+                //     }
+                // });
+
+                // Initialize DataTable with column filtering.
+                const dataTable = $(`#${tableId}`).DataTable({
+                    orderCellsTop: true,
+                    fixedHeader: true,
+                    initComplete: function() {
+                        const api = this.api();
+
+                        // Apply the search for each table header input located in the second tr of the thead.
+                        api.columns().eq(0).each(function(colIdx) {
+                            $(api.table().header()).find('tr:eq(1) th').eq(colIdx).find('input').on('keyup change clear', function() {
+                                api
+                                    .column(colIdx)
+                                    .search(this.value)
+                                    .draw();
+                            });
+                        });
+                    }
+                });
             }
         }
 
-        // Load CSV data for AM and PM tables
+        // Load CSV data for AM and PM tables.
         function loadTables() {
-            loadCSVIntoTable('https://ml24330.github.io/consistent-trips/assets/am_means.csv', 'amTableHead', 'amTableBody');
-            loadCSVIntoTable('https://ml24330.github.io/consistent-trips/assets/pm_means.csv', 'pmTableHead', 'pmTableBody');
+            loadCSVIntoTable('https://ml24330.github.io/consistent-trips/assets/am_means.csv', 'amTable');
+            loadCSVIntoTable('https://ml24330.github.io/consistent-trips/assets/pm_means.csv', 'pmTable');
         }
 
-        // Initialize the DataTable plugin when document is ready
-        document.addEventListener("DOMContentLoaded", function() {
-            loadTables();  // Load table data when the document is ready
+        document.addEventListener('DOMContentLoaded', () => {
+            loadTables();
         });
     </script>
 
@@ -438,7 +486,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
     <!-- PapaParse library for parsing CSV files -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
 </body>
