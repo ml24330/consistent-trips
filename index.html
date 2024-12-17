@@ -91,7 +91,8 @@
     </div>
 
     <div class="container">
-        <h1 class="mt-5">Image Viewer</h1>
+        <h1 class="mt-5">Compare Consistent Trip Definitions</h1>
+        <div class="row 
         <div class="row mt-3">
             <!-- Drop down menus -->
             <div class="col-md-2 d-flex flex-column">
@@ -152,7 +153,7 @@
             </div>
         </div>
         <!-- Images display section -->
-        <div class="row mt-3 image-container" id="imagesContainer">
+        <div id="imagesContainer" class="row row-cols-1 row-cols-md-2 g-4">
         </div>
     </div>
 
@@ -225,7 +226,6 @@
             loadImagesFromDirectory(imageDirectory);
         });
 
-        // Function to load images from the directory and display them
         function loadImagesFromDirectory(directory) {
             const container = document.getElementById('imagesContainer');
             container.innerHTML = '';
@@ -250,25 +250,49 @@
             ];
 
             files.forEach(function(file) {
-                let element;
+                const col = document.createElement('div');
+                col.className = 'col p-2';
 
+                const card = document.createElement('div');
+                card.className = 'card';
+
+                let element;
                 if (file.endsWith('.html')) {
                     element = document.createElement('iframe');
+                    element.className = 'card-img-top border-0';
                     element.src = `${directory}${file}`;
                     element.style.width = '100%';
                     element.style.height = '300px';
                 } else {
                     element = document.createElement('img');
+                    element.className = 'card-img-top p-3';
                     element.src = `${directory}${file}`;
                     element.alt = file;
-                    element.className = 'm-2'; // Removed img-thumbnail class
                     element.onerror = function () {
                         element.alt = `File not found: ${file}`;
-                        element.src = ''; // Clear the src to avoid broken image display
+                        element.src = '';      // Clear the src to avoid broken image display
                     };
                 }
 
-                container.appendChild(element);
+                const cardBody = document.createElement('div');
+                cardBody.className = 'card-body';
+
+                const cardTitle = document.createElement('h5');
+                cardTitle.className = 'card-title';
+                cardTitle.innerText = 'Card title';
+
+                const cardText = document.createElement('p');
+                cardText.className = 'card-text';
+                cardText.innerText = 'This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.';
+
+                cardBody.appendChild(cardTitle);
+                cardBody.appendChild(cardText);
+
+                card.appendChild(element);
+                card.appendChild(cardBody);
+                col.appendChild(card);
+
+                container.appendChild(col);
             });
         }
 
