@@ -32,7 +32,7 @@ process_html_file <- function(file_path) {
   # Change padding from right to left in style
   styles <- xml_find_all(html, "//style")
   style_text <- xml_text(styles)
-  updated_style <- str_replace(style_text, "tr>td:not\\(:last-child\\) \\{padding-right: 2em;\\}", "tr>td:not\\(:last-child\\) \\{padding-left: 2em;\\}")
+  updated_style <- str_replace(style_text, "padding-right: 2em;", "padding-left: 2em;")
   xml_set_text(styles, updated_style)
   
   # Rename column titles
